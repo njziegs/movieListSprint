@@ -5,7 +5,7 @@ class MovieToggler extends React.Component {
     super(props);
 
     this.state = {value: '',
-				finalValue: ''};
+      finalValue: ''};
   }
 
   // handleChange(event) {
