@@ -1,55 +1,75 @@
-import ButtonList from './ButtonList.js';
+
+import AddMovie from './AddMovie.js'
+import Search from './Search.js'
+import WatchState from './WatchState.js'
+//import MovieToggler from './MovieToggler.js'
+
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      numButtons: 0,
-      buttonList: ['Home',
-      // 'Profile',
-      'Another',
-      'One',
-      'Hello',
-      'Bob',
-      'James',],
-    }
+    movies: [
+	  {title: 'Mean Girls', watched: 'Watched'},
+	  {title: 'Hackers', watched: 'To Watch'},
+	  {title: 'The Grey', watched: 'Watched'},
+	  {title: 'Sunshine', watched: 'To Watch'},
+	  {title: 'Ex Machina', watched: 'To Watch'}
+	  ],
+	selectedWatchState: 'Watched'
+	}
   }
 
-  onClickButton(event) {
-    console.log(event.target.name);
-    if (event.target.name === 'Bob') {
-      console.log('Hello Robert');
-    }
+  addMovie(movie) {
+	this.state.movies.push({
+		title: movie,
+		watched: 'To Watch'
+	})
+	this.forceUpdate()
+	}
+
+  toggleWatchedState(selectedMovie) {
+  	_.each(this.state.movies, (movie) => {
+  		if (selectedMovie === movie.title) {
+  			 movie.watched === 'Watched' ? movie.watched = 'To Watch' : movie.watched = 'Watched'
+  		}
+  	})
+  	this.forceUpdate()
   }
+
+  updateGlobalWatchState(clickedWatchState) {
+  	console.log(this.state.selectedWatchState)
+  	//this.state.selectedWatchState = clickedWatchState
+  	console.log('hi')
+  	this.setState({selectedWatchState: clickedWatchState})
+  	console.log(this.state.selectedWatchState)
+  	this.forceUpdate();
+  }
+
+
+  // addNameToForm(movieTitle) {
+  // 	this.state.movies.push({title: movieTitle})
+  // }
 
   render() {
-    return (
-      <div>
-        <ButtonList
-          onClickButton={this.onClickButton.bind(this)}
-          buttonList={this.state.buttonList}
-          />
-      </div>
-    )
+	  	return (
+	  	<div className = 'container'>
+	  	<h1 className='title'>MovieList</h1>
+	  	<AddMovie addMovie = {this.addMovie.bind(this)}/>
+	    <WatchState updateGlobalWatchState={this.updateGlobalWatchState.bind(this)}/>
+	  	<Search 
+	  	  allMovies ={this.state.movies}
+	  	  toggleWatchedState ={this.toggleWatchedState.bind(this)}
+	  	  selectedWatchState={this.state.selectedWatchState}
+	  	  />
+	    </div>
+	    )
   }
-
-};
-{/* <div>
-        <span>
-          <button>Home asdf should render here</button>
-        </span>
-        <span>
-          <button>Profile button should render here</button>
-        </span>
-      </div> */}
-// Define what components we need
-  // Button list
-  // Button component
-  // 
-
-// In app's state:
-  // Information about the buttons
-
+} 
 
 export default App;
+
+//One component will pass the movie array into the render movie component
+
+//One component will render movies
